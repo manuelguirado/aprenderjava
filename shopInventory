@@ -1,0 +1,137 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+package com.mycompany.aprenderjava;
+
+
+import java.util.*;
+import java.util.List;
+import java.util.function.Predicate;
+
+
+
+/**
+ *
+ * @author manudev
+ */
+public class Aprenderjava {
+
+    public static List<Integer> condition(Predicate<Integer> predicate, ArrayList<Integer> lista) {
+        List<Integer> resultado = new ArrayList<>();
+        for (Integer num : lista) {
+            if (predicate.test(num)) {
+                resultado.add(num);
+
+            }
+        }
+        return resultado;
+
+    }
+    public static Map<String, Integer> addProducts(Map<String, Integer> inventory, Predicate<Integer> predicate) {
+        Map<String, Integer> resultado = new HashMap<>();
+
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            if (predicate.test(entry.getValue())) {
+                resultado.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return resultado;
+    }
+public  static  Map<String,Integer> searchProduct(Map<String, Integer> inventory, String productName) {
+        Map<String, Integer> resultado = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            if (entry.getKey().equals(productName)) {
+                resultado.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return resultado;
+
+}
+public static Map<String, Integer>eraseProducts(Map<String, Integer> inventory, String productName) {
+        Map<String, Integer> resultado = new HashMap<>();
+        resultado.remove(productName);
+        return resultado;
+}
+    public static Map<String, Integer> updateProduct(Map<String, Integer> inventory, String productName, int newQuantity) {
+        Map<String, Integer> resultado = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            if (entry.getKey().equals(productName)) {
+                resultado.put(entry.getKey(), newQuantity);
+            } else {
+                resultado.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return resultado;
+    }
+    public static void displayInventory(Map<String, Integer> inventory) {
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map< String, Integer> inventory = new HashMap<>();
+        inventory.put("apple", 10);
+        inventory.put("banana", 5);
+        inventory.put("orange", 0);
+        inventory.put("grape", 3);
+        inventory.put("kiwi", 2);
+        inventory.put("peach", 8);
+        inventory.put("melon", 4);
+        inventory.put("watermelon", 1);
+        inventory.put("pineapple", 7);
+        System.out.println("dime que operación deaseas realizar:");
+        System.out.println("1-Consultar inventario" +
+                "2-Agregar productos al inventario" +
+                "3-Buscar productos por nombre" +
+                "4-Borrar productos del inventario" +
+                "5-Actualizar cantidad de un producto");
+
+        int option = scanner.nextInt();
+        switch (option) {
+            case 1:
+                displayInventory(inventory);
+
+                break;
+            case 2:
+                System.out.println("Ingrese nombre del producto y cantidad:");
+                String productName = scanner.next();
+                int quantity = scanner.nextInt();
+                inventory.put(productName, quantity);
+                System.out.println("Producto agregado con éxito!");
+                break;
+            case 3:
+                System.out.println("Ingrese nombre del producto a buscar:");
+                String searchName = scanner.next();
+                Map<String, Integer> searchResult = searchProduct(inventory, searchName);
+                if (searchResult.isEmpty()) {
+                    System.out.println("Producto no encontrado.");
+                } else {
+                    System.out.println("Resultado de la búsqueda:");
+                    displayInventory(searchResult);
+                }
+                break;
+            case 4:
+                System.out.println("Ingrese nombre del producto a eliminar:");
+                String eraseName = scanner.next();
+                inventory = eraseProducts(inventory,eraseName);
+                System.out.println("Producto eliminado con éxito!");
+                break;
+            case 5:
+                System.out.println("Ingrese nombre del producto y nueva cantidad:");
+                String updateName = scanner.next();
+                int updateQuantity = scanner.nextInt();
+                inventory = updateProduct(inventory, updateName, updateQuantity);
+                System.out.println("Cantidad actualizada con éxito!");
+                break;
+            default:
+                System.out.println("Opción inválida.");
+                break;
+
+
+        }
+    }
+
+}
+
